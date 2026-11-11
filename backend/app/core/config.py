@@ -33,8 +33,8 @@ class Settings(BaseSettings):
         "http://127.0.0.1:5173",
         "http://localhost:3000",
         "http://localhost:8000",
-        "https://backend-wheat-rho-17.vercel.app",
-        "https://*.vercel.app"
+        "https://kss-projects.vercel.app",
+        "https://backend-wheat-rho-17.vercel.app"
     ]
 
     @field_validator("BACKEND_CORS_ORIGINS", mode="before")

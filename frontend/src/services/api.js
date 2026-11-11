@@ -3,12 +3,22 @@
  * Communicates with FastAPI backend with fallback resilience.
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+const DEFAULT_LOCAL_API = 'http://localhost:8000/api/v1';
+const DEFAULT_PROD_API = 'https://backend-wheat-rho-17.vercel.app/api/v1';
+
+const isLocalHost =
+  typeof window !== 'undefined' &&
+  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+const API_BASE_URL = (
+  import.meta.env.VITE_API_BASE_URL ||
+  (isLocalHost ? DEFAULT_LOCAL_API : DEFAULT_PROD_API)
+).replace(/\/+$/, '');
 
 /**
  * Helper to execute fetch with timeout
  */
-async function fetchWithTimeout(resource, options = {}, timeout = 6000) {
+async function fetchWithTimeout(resource, options = {}, timeout = 15000) {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
   try {
